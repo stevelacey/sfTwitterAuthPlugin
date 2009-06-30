@@ -44,4 +44,4 @@ For debugging purposes you'll want to test offline, which is awkward because Twi
 Copyright 2009, Thomas Boutell. Released under the MIT license (see LICENSE). Thomas Boutell develops Symfony-driven sites 
 with (http://www.punkave.com/ P'unk Avenue), a design firm in Philadelphia, PA.
 
-sfTwitterAuthPlugin contains twitterOAuth by Abraham Williams, who has confirmed his willingness to release his code under the MIT license. twitterOAuth contains OAuth.php from oauth.net, which is also released under the MIT license.
+sfTwitterAuthPlugin contains twitterOAuth by Abraham Williams, who has confirmed his willingness to release his code under the MIT license. twitterOAuth contains OAuth.php by Andy Smith, also under the MIT license.
