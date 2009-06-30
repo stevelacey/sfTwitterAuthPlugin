@@ -33,9 +33,13 @@ If you redirect the user they will be sent to `@homepage` after authentication, 
 
 In addition to authenticating users you can also tweet as the currently logged-in user:
 
-sfTwitterAPI::tweet('oh wow, I'm using sfTwitterAuthPlugin!');
+    sfTwitterAPI::tweet('oh wow, I'm using sfTwitterAuthPlugin!');
 
 Currently this only works for the logged-in user, and only if they logged in via Twitter. If your application also allows login via sfGuard passwords that might not be ideal. Also, Twitter tokens are currently good for an indefinite period of time, so it should be possible to tweet on behalf of a user who is not currently logged in. Supporting this will require a database table to retain the token information. I'll be working on that. Meanwhile you get the most common case.
 
 For debugging purposes you'll want to test offline, which is awkward because Twitter wants to redirect users back to your site. You may be able to work around that by applying for a second application and setting its URL to a URL that only works on your computer. I don't know whether Twitter has any objection to that sort of thing.
 
+## Credits ##
+
+Copyright 2009, Thomas Boutell. Thomas Boutell develops Symfony-driven sites 
+with (http://www.punkave.com/ P'unk Avenue), a design firm in Philadelphia, PA.
