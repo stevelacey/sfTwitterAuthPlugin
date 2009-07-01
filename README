@@ -1,11 +1,5 @@
 # sfTwitterAuthPlugin #
 
-## Credits ##
-
-Copyright 2009, Thomas Boutell, except as otherwise noted. Released under the MIT license.
-
-Includes (http://github.com/abraham/twitteroauth/ twitterOAuth by Abraham Williams), distributed openly but license unspecified. I have asked Abraham to clarify the license for his code. twitterOAuth is in turn a wrapper around (http://code.google.com/p/oauth/ oauth), which is released under the Apache License, version 2.0.
-
 ## Installation and Usage ##
 
 sfTwitterAuthPlugin provides Twitter authentication for your Facebook applications.
