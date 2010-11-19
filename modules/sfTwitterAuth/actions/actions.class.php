@@ -88,7 +88,7 @@ class sfTwitterAuthActions extends sfActions
           return $this->redirect('' != $signinUrl ? $signinUrl : '@homepage');
         } else {
           $user->setAttribute('sfTwitterAuth_oauth_request_token', null);
-          $user->setAttribute('sfTwitterAuth_request_token_secret', null);
+          $user->setAttribute('sfTwitterAuth_oauth_request_token_secret', null);
           $user->setAttribute('sfTwitterAuth_oauth_state', null);
           $user->setAttribute('sfTwitterAuth_oauth_access_token', null);
           $user->setAttribute('sfTwitterAuth_oauth_access_token_secret', null);
