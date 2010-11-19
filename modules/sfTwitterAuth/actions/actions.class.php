@@ -5,21 +5,13 @@ class sfTwitterAuthActions extends sfActions
   public function executeLogin(sfRequest $request)
   {
     /* Consumer key from twitter */
-    $consumer_key = sfConfig::get('app_sfTwitterAuth_consumer_key');
-    $consumer_secret = sfConfig::get('app_sfTwitterAuth_consumer_secret');
-    $user = $this->getUser();
-    $module = $request->getParameter('module');
-    $action = $request->getParameter('action');
-    if ($module !== 'sfTwitterAuth')
-    {
-      // We were forwarded here to force a login
-      $user->setAttribute('sfTwitterAuth_after', "$module/$action");
-    }
+    $consumer_key = sfConfig::get('app_sf_twitter_auth_consumer_key');
+    $consumer_secret = sfConfig::get('app_sf_twitter_auth_consumer_secret');
+    $user = $this->getUser(); /* @var $user myUser */
     /* Set state if previous session */
     $state = $user->getAttribute('sfTwitterAuth_oauth_state');
     /* If oauth_token is missing get it */
-    if ($request->hasParameter('oauth_token') && ($state === 'start')) 
-    {
+    if ($request->hasParameter('oauth_token') && ($state === 'start')) {
       $user->setAttribute('sfTwitterAuth_oauth_state', $state = 'returned');
     }
 
