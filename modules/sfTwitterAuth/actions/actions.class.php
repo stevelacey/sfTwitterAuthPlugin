@@ -37,12 +37,12 @@ class sfTwitterAuthActions extends sfActions
         $tok = $to->getRequestToken();
 
         /* Save tokens for later */
-        $user->setAttribute('sfTwitterAuth_oauth_request_token', $token = $tok['oauth_token']);
+        $user->setAttribute('sfTwitterAuth_oauth_request_token', $tok['oauth_token']);
         $user->setAttribute('sfTwitterAuth_oauth_request_token_secret', $tok['oauth_token_secret']);
-        $user->setAttribute('sfTwitterAuth_oauth_state', "start");
+        $user->setAttribute('sfTwitterAuth_oauth_state', 'start');
 
         /* Build the authorization URL */
-        $request_link = $to->getAuthorizeURL($token);
+        $request_link = $to->getAuthorizeURL($tok['oauth_token']);
         return $this->redirect($request_link);
         break;
       case 'returned':
