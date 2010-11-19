@@ -79,15 +79,14 @@ class sfTwitterAuthActions extends sfActions
             $guardUser->save();            
           }
           $user->signIn($guardUser);
-          $after = $user->getAttribute('sfTwitterAuth_after');
-          if (!$after)
-          {
-            $after = "@homepage";
-          }
-          return $this->redirect($after);
-        }
-        else
-        {
+
+          // always redirect to a URL set in app.yml
+          // or to the referer
+          // or to the homepage
+          $signinUrl = sfConfig::get('app_sf_twitter_auth_success_signin_url', $user->getReferer($request->getReferer()));
+
+          return $this->redirect('' != $signinUrl ? $signinUrl : '@homepage');
+        } else {
           $user->setAttribute('sfTwitterAuth_oauth_request_token', null);
           $user->setAttribute('sfTwitterAuth_request_token_secret', null);
           $user->setAttribute('sfTwitterAuth_oauth_state', null);
