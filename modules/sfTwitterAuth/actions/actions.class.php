@@ -54,8 +54,8 @@ class sfTwitterAuthActions extends sfActions
             $user->getAttribute('sfTwitterAuth_oauth_request_token'),
             $user->getAttribute('sfTwitterAuth_oauth_request_token_secret'));
           /* Request access tokens from twitter */
-          $tok = $to->getAccessToken();
-          /* Save the access tokens. These could be saved in a database as they don't 
+          $tok = $to->getAccessToken($request->getParameter('oauth_verifier'));
+          /* Save the access tokens. These could be saved in a database as they don't
             currently expire. But our goal here is just to authenticate the session. */
           $user->setAttribute('sfTwitterAuth_oauth_access_token', $tok['oauth_token']);
           $user->setAttribute('sfTwitterAuth_oauth_access_token_secret', $tok['oauth_token_secret']);
