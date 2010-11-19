@@ -26,7 +26,7 @@ class sfTwitterAuthActions extends sfActions
         /* Create TwitterOAuth object with app key/secret */
         $to = new TwitterOAuth($consumer_key, $consumer_secret);
         /* Request tokens from twitter */
-        $tok = $to->getRequestToken();
+        $tok = $to->getRequestToken(sfConfig::get('app_sf_twitter_auth_callback_url'));
 
         /* Save tokens for later */
         $user->setAttribute('sfTwitterAuth_oauth_request_token', $tok['oauth_token']);
