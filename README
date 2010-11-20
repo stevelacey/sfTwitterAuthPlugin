@@ -16,14 +16,14 @@ Also, in `app.yml`, set your Twitter application apikey and secret:
       sfTwitterAuth:
         consumer_key: 'J8fcUzmNXj5d5TWjmuRqsQ'
         consumer_secret: 'x4uokMD1lC0akW9oa12ZUeEhVxWpPetxN8hCjTIU';
+        callback_url: http://path/to/login
+        success_signin_url: ... (optional)
 
 You can get these via the (http://twitter.com/oauth_clients Twitter Applications Page). 
 
 Now all actions that require authentication will force the user to log in via Twitter first. You can also log the user in explicitly by redirecting or forwarding them to the sfTwitterAuth/login action. 
 
-If you forward the user they will be redirected back to the original action (but currently without any additional parameters that may have been in the URL). 
-
-If you redirect the user they will be sent to `@homepage` after authentication, unless you have set the sfTwitterAuth_after user attribute to another destination.
+Redirects should now be handled gracefully alike sfDoctrineGuardPlugin, to success_signin_url (if set), to referrer if there was one or to @homepage.
 
 In addition to authenticating users you can also tweet as the currently logged-in user:
 
@@ -31,11 +31,14 @@ In addition to authenticating users you can also tweet as the currently logged-i
 
 Currently this only works for the logged-in user, and only if they logged in via Twitter. If your application also allows login via sfGuard passwords that might not be ideal. Also, Twitter tokens are currently good for an indefinite period of time, so it should be possible to tweet on behalf of a user who is not currently logged in. Supporting this will require a database table to retain the token information. I'll be working on that. Meanwhile you get the most common case.
 
-For debugging purposes you'll want to test offline, which is awkward because Twitter wants to redirect users back to your site. You may be able to work around that by applying for a second application and setting its URL to a URL that only works on your computer. I don't know whether Twitter has any objection to that sort of thing.
+Abraham's TwitterOAuth classes now support usage of other Twitter API methods post-authentication, I will investigate integrating this with the plugin at some point as and when I need it.
+
+As callback urls can now be passed along with the oauth request (and are encouraged to be by Twitter), you can now set them per environment in app.yml which eases testing on development servers.
 
 ## Credits ##
 
-Copyright 2009, Thomas Boutell. Released under the MIT license (see LICENSE). Thomas Boutell develops Symfony-driven sites 
-with (http://www.punkave.com/ P'unk Avenue), a design firm in Philadelphia, PA.
+Copyright 2010, Thomas Boutell. Released under the MIT license (see LICENSE). Thomas Boutell develops Symfony-driven sites with (http://www.punkave.com/ P'unk Avenue), a design firm in Philadelphia, PA.
 
-sfTwitterAuthPlugin contains twitterOAuth by Abraham Williams, who has confirmed his willingness to release his code under the MIT license. twitterOAuth contains OAuth.php by Andy Smith, also under the MIT license.
+sfTwitterAuthPlugin contains TwitterOAuth by Abraham Williams, who has confirmed his willingness to release his code under the MIT license. TwitterOAuth contains OAuth.php by Andy Smith, also under the MIT license.
+
+Updates by Steve Lacey are also subject to the license above, these include various general bugfixes and integration of version 0.2.0-beta2 of TwitterOAuth by Abraham Williams.
