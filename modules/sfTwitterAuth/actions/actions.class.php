@@ -86,9 +86,14 @@ class sfTwitterAuthActions extends sfActions {
     $user->setId((int) $xml->id);
     $user->setUsername($xml->screen_name);
     $user->setEmailAddress($xml->screen_name);
-    $user->setFirstName(substr($xml->name, 0, strpos($xml->name, ' ')));
-    $user->setLastName(substr($xml->name, strpos($xml->name, ' ') + 1, strlen($xml->name)));
     $user->setPassword($this->generatePassword());
+
+    if(stristr($xml->name, ' ')) {
+      $user->setFirstName(substr($xml->name, 0, strpos($xml->name, ' ')));
+      $user->setLastName(substr($xml->name, strpos($xml->name, ' ') + 1, strlen($xml->name)));
+    } else {
+      $user->setFirstName($xml->name);
+    }
 
     $profile = new sfGuardUserProfile();
     $profile->setId((int) $xml->id);
