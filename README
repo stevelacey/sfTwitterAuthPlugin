@@ -8,14 +8,14 @@ approve your app on a genuine twitter.com page.
 
 This plugin requires sfDoctrineGuardPlugin as a starting point. sfGuardUser objects are created in the database for each Twitter user who has not been seen previously. The sfGuardUser username field will be set to the user's Twitter username.
 
-To use this plugin, set up sfDoctrineGuardPlugin correctly, then set login_module to `sfTwitterAuth` and login_action to `login`. 
+To use this plugin, set up sfDoctrineGuardPlugin correctly, then set login_module to `sfTwitterAuth` and login_action to `login`.
 
 Also, in `app.yml`, set your Twitter application apikey and secret:
 
     all:
       sfTwitterAuth:
-        consumer_key: 'J8fcUzmNXj5d5TWjmuRqsQ'
-        consumer_secret: 'x4uokMD1lC0akW9oa12ZUeEhVxWpPetxN8hCjTIU';
+        consumer_key: 'YOUR_CONSUMER_KEY'
+        consumer_secret: 'YOUR_CONSUMER_SECRET';
         success_signin_url: ... (optional)
 
 You can get these via the (http://twitter.com/oauth_clients Twitter Applications Page). 
@@ -24,13 +24,9 @@ Now all actions that require authentication will force the user to log in via Tw
 
 Redirects should now be handled gracefully alike sfDoctrineGuardPlugin, to success_signin_url (if set), to referrer if there was one or to @homepage.
 
-In addition to authenticating users you can also tweet as the currently logged-in user:
+Once authenticated you can use the Twitter class to retrieve an instance of the current TwitterOAuth connection and perform API requests on behalf of the user like so:
 
-    sfTwitterAPI::tweet('oh wow, I'm using sfTwitterAuthPlugin!');
-
-Currently this only works for the logged-in user, and only if they logged in via Twitter. If your application also allows login via sfGuard passwords that might not be ideal. Also, Twitter tokens are currently good for an indefinite period of time, so it should be possible to tweet on behalf of a user who is not currently logged in. Supporting this will require a database table to retain the token information. I'll be working on that. Meanwhile you get the most common case.
-
-Abraham's TwitterOAuth classes now support usage of other Twitter API methods post-authentication, I will investigate integrating this with the plugin at some point as and when I need it.
+    Twitter::getConnection()->get('users/search', array('q' => 'Steve Lacey'))
 
 ## Credits ##
 
