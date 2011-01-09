@@ -97,7 +97,6 @@ class sfTwitterAuthActions extends sfActions {
 
     $profile = new sfGuardUserProfile();
     $profile->setId((int) $xml->id);
-    $profile->setName($xml->name);
     $profile->setDescription($xml->description);
     $profile->setWebsite($xml->url);
     $profile->setImage($xml->profile_image_url);

@@ -1,6 +1,5 @@
 sfGuardUserProfile:
   columns:
-    name: string(50)
     description: string(255)
     website: string(255)
     image: string(255)
