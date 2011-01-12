@@ -113,6 +113,14 @@ class sfTwitterAuthActions extends sfActions {
     return $guid;
   }
 
+  public function executeSecure($request) {
+    $this->getResponse()->setStatusCode(403);
+  }
+
+  public function executeFailed() {
+    $this->getResponse()->setStatusCode(403);
+  }
+
   public function executeLogout(sfRequest $request) {
     $user = $this->getUser(); /* @var $user myUser */
     $user->getAttributeHolder()->removeNamespace('sfTwitterAuth');
@@ -124,9 +132,5 @@ class sfTwitterAuthActions extends sfActions {
     $signoutUrl = sfConfig::get('app_sf_twitter_auth_success_signout_url', $user->getReferer($request->getReferer()));
 
     return $this->redirect('' != $signoutUrl ? $signoutUrl : '@homepage');
-  }
-
-  public function executeFailed() {
-
   }
 }
