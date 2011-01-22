@@ -11,7 +11,7 @@ class Twitter {
     }
 
     if(self::$connection === null) {
-      self::$connection = new TwitterOAuth(sfConfig::get('app_sf_twitter_auth_consumer_key'), sfConfig::get('app_sf_twitter_auth_consumer_secret'), $user->getAttribute('sfTwitterAuth_oauth_access_token'), $user->getAttribute('sfTwitterAuth_oauth_access_token_secret'));
+      self::$connection = new TwitterOAuth(sfConfig::get('app_sf_twitter_auth_consumer_key'), sfConfig::get('app_sf_twitter_auth_consumer_secret'), $user->getAttribute('oauth_access_token', null, 'sfTwitterAuth'), $user->getAttribute('oauth_access_token_secret', null, 'sfTwitterAuth'));
     }
 
     return self::$connection;
