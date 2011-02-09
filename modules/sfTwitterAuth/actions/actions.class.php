@@ -21,9 +21,9 @@ class sfTwitterAuthActions extends sfActions {
     switch ($user->getAttribute('oauth_state', null, 'sfTwitterAuth')) {
       default:
         /* Create TwitterOAuth object with app key/secret */
-        $to = new TwitterOAuth($consumer_key, $consumer_secret);
+        $connection = new TwitterOAuth($consumer_key, $consumer_secret);
         /* Request tokens from twitter */
-        $tok = $to->getRequestToken($this->getController()->genUrl(array('sf_route' => 'login'), true));
+        $tok = $connection->getRequestToken($this->getController()->genUrl(array('sf_route' => 'login'), true));
 
         /* Save tokens for later */
         $user->setAttribute('oauth_request_token', $tok['oauth_token'], 'sfTwitterAuth');
@@ -31,33 +31,32 @@ class sfTwitterAuthActions extends sfActions {
         $user->setAttribute('oauth_state', 'start', 'sfTwitterAuth');
 
         /* Build the authorization URL */
-        $request_link = $to->getAuthorizeURL($tok['oauth_token']);
+        $request_link = $connection->getAuthorizeURL($tok['oauth_token']);
         return $this->redirect($request_link);
         break;
       case 'returned':
         /* If the access tokens are already set skip to the API call */
         if ((!$user->getAttribute('oauth_access_token', null, 'sfTwitterAuth')) &&   (!$user->getAttribute('oauth_access_token_secret', null, 'sfTwitterAuth'))) {
           /* Create TwitterOAuth object with app key/secret and token key/secret from default phase */
-          $to = new TwitterOAuth($consumer_key, $consumer_secret, $user->getAttribute('oauth_request_token', null, 'sfTwitterAuth'), $user->getAttribute('oauth_request_token_secret', null, 'sfTwitterAuth'));
+          $connection = new TwitterOAuth($consumer_key, $consumer_secret, $user->getAttribute('oauth_request_token', null, 'sfTwitterAuth'), $user->getAttribute('oauth_request_token_secret', null, 'sfTwitterAuth'));
           /* Request access tokens from twitter */
-          $tok = $to->getAccessToken($request->getParameter('oauth_verifier'));
+          $tok = $connection->getAccessToken($request->getParameter('oauth_verifier'));
           /* Save the access tokens. These could be saved in a database as they don't
             currently expire. But our goal here is just to authenticate the session. */
           $user->setAttribute('oauth_access_token', $tok['oauth_token'], 'sfTwitterAuth');
           $user->setAttribute('oauth_access_token_secret', $tok['oauth_token_secret'], 'sfTwitterAuth');
         }
         /* Create TwitterOAuth with app key/secret and user access key/secret */
-        $to = new TwitterOAuth($consumer_key, $consumer_secret, $user->getAttribute('oauth_access_token', null, 'sfTwitterAuth'), $user->getAttribute('oauth_access_token_secret', null, 'sfTwitterAuth'));
+        $connection = new TwitterOAuth($consumer_key, $consumer_secret, $user->getAttribute('oauth_access_token', null, 'sfTwitterAuth'), $user->getAttribute('oauth_access_token_secret', null, 'sfTwitterAuth'));
         /* Run request on twitter API as user. */
-        $result = $to->OAuthRequest('https://twitter.com/account/verify_credentials.xml', 'GET', array());
-        $xml = new SimpleXMLElement($result);
+        $result = $connection->get('account/verify_credentials');
 
-        if ($xml->id) {
-          $guardUser = Doctrine::getTable('sfGuardUser')->findOneById($xml->id);
+        if ($result->id) {
+          $guardUser = Doctrine::getTable('sfGuardUser')->findOneById($result->id);
 
           if (!$guardUser) {
             // Make a new user here
-            $guardUser = $this->createUser($xml);
+            $guardUser = $this->createUser($result);
           }
 
           $user->signIn($guardUser);
