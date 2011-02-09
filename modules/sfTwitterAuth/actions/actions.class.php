@@ -75,25 +75,25 @@ class sfTwitterAuthActions extends sfActions {
     }
   }
 
-  private function createUser(SimpleXMLElement $xml) {
+  private function createUser($result) {
     $user = new sfGuardUser();
-    $user->setId((int) $xml->id);
-    $user->setUsername($xml->screen_name);
-    $user->setEmailAddress($xml->screen_name);
+    $user->setId((int) $result->id);
+    $user->setUsername($result->screen_name);
+    $user->setEmailAddress($result->screen_name);
     $user->setPassword($this->generatePassword());
 
-    if(stristr($xml->name, ' ')) {
-      $user->setFirstName(substr($xml->name, 0, strpos($xml->name, ' ')));
-      $user->setLastName(substr($xml->name, strpos($xml->name, ' ') + 1, strlen($xml->name)));
+    if(stristr($result->name, ' ')) {
+      $user->setFirstName(substr($result->name, 0, strpos($result->name, ' ')));
+      $user->setLastName(substr($result->name, strpos($result->name, ' ') + 1, strlen($result->name)));
     } else {
-      $user->setFirstName($xml->name);
+      $user->setFirstName($result->name);
     }
 
     $profile = new sfGuardUserProfile();
-    $profile->setId((int) $xml->id);
-    $profile->setDescription($xml->description);
-    $profile->setWebsite($xml->url);
-    $profile->setImage($xml->profile_image_url);
+    $profile->setId((int) $result->id);
+    $profile->setDescription($result->description);
+    $profile->setWebsite($result->url);
+    $profile->setImage($result->profile_image_url);
 
     $user->setProfile($profile);
     $user->save();
