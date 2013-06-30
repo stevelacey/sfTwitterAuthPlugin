@@ -2,9 +2,7 @@
 
 ## Installation and Usage ##
 
-sfTwitterAuthPlugin provides Twitter authentication for your Facebook applications.
-Thanks to OpenAuth, users never have to give you their Twitter credentials, and they
-approve your app on a genuine twitter.com page.
+sfTwitterAuthPlugin provides Twitter API v1.1 integration including authentication for your applications.
 
 This plugin requires sfDoctrineGuardPlugin as a starting point. sfGuardUser objects are created in the database for each Twitter user who has not been seen previously. The sfGuardUser username field will be set to the user's Twitter username.
 
@@ -14,11 +12,15 @@ Also, in `app.yml`, set your Twitter application apikey and secret:
 
     all:
       sfTwitterAuth:
-        consumer_key: 'YOUR_CONSUMER_KEY'
-        consumer_secret: 'YOUR_CONSUMER_SECRET';
+        consumer_key: YOUR_CONSUMER_KEY
+        consumer_secret: YOUR_CONSUMER_SECRET
+        access_token: YOUR_ACCESS_TOKEN (optional)
+        access_token_secret: YOUR_ACCESS_TOKEN_SECRET (optional)
         success_signin_url: ... (optional)
 
-You can get these via the (http://twitter.com/oauth_clients Twitter Applications Page). 
+You can get these via the (http://twitter.com/oauth_clients Twitter Applications Page).
+
+If you add your own access token and secret then you'll be able to use Twitter API methods without end-user authentication, useful for tasks and 'recent tweet' lists, etc. If a user is authenticated we'll default to their token to save your request limit.
 
 Now all actions that require authentication will force the user to log in via Twitter first. You can also log the user in explicitly by redirecting or forwarding them to the sfTwitterAuth/login action. 
 
